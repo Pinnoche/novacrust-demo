@@ -16,7 +16,10 @@ export default function CryptoToCash() {
   const [selectedToWallet, setSelectedToWallet] = useState<string>("");
   const [fromAmount, setFromAmount] = useState<string | number>("");
   const [toAmount, setToAmount] = useState<string | number>("");
-  const [selectedToken, setSelectedToken] = useState({ label: "", img: "" });
+  const [selectedToken, setSelectedToken] = useState({
+    label: "ETH",
+    img: "/images/eth.png",
+  });
 
   const options = [
     { label: "USDT - CELO", img: "/images/celo.png" },
@@ -71,6 +74,10 @@ export default function CryptoToCash() {
       toast.warning("Please select a cryptocurrency token to pay with.");
       return;
     }
+    if (!fromAmount || Number(fromAmount) === 0) {
+      toast.warning("Please enter an amount to convert.");
+      return;
+    }
     if (!selectedWallet) {
       toast.warning("Please select a wallet to pay from.");
       return;
@@ -79,6 +86,16 @@ export default function CryptoToCash() {
       toast.warning("Please select a wallet to pay to.");
       return;
     }
+
+    toast.success("Conversion successful!");
+    setSelectedToken({
+      label: "ETH",
+      img: "/images/eth.png",
+    });
+    setFromAmount("");
+    setToAmount("");
+    setSelectedToWallet("");
+    setSelectedWallet("");
   };
 
   return (
@@ -131,7 +148,9 @@ export default function CryptoToCash() {
                   priority
                 />
               )}
-              <span className="font-semibold">{selectedWallet || "Select an option"}</span>
+              <span className="font-semibold">
+                {selectedWallet || "Select an option"}
+              </span>
             </div>
             <ChevronDown size={16} />
           </div>
@@ -163,7 +182,9 @@ export default function CryptoToCash() {
                   priority
                 />
               )}
-              <span className="font-semibold">{selectedToWallet || "Select an option"}</span>
+              <span className="font-semibold">
+                {selectedToWallet || "Select an option"}
+              </span>
             </div>
             <ChevronDown size={16} />
           </div>
