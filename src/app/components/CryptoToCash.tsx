@@ -6,13 +6,16 @@ import SelectField from "./SelectField";
 import WalletSelect from "./WalletSelect";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 export default function CryptoToCash() {
-  const [showTokenList, setShowTokenList] = useState(false);
-  const [showWallets, setShowWallets] = useState(false);
-  const [showToWallets, setShowToWallets] = useState(false);
-  const [selectedWallet, setSelectedWallet] = useState("");
-  const [selectedToWallet, setSelectedToWallet] = useState("");
+  const [showTokenList, setShowTokenList] = useState<boolean>(false);
+  const [showWallets, setShowWallets] = useState<boolean>(false);
+  const [showToWallets, setShowToWallets] = useState<boolean>(false);
+  const [selectedWallet, setSelectedWallet] = useState<string>("");
+  const [selectedToWallet, setSelectedToWallet] = useState<string>("");
+  const [fromAmount, setFromAmount] = useState<string | number>("");
+  const [toAmount, setToAmount] = useState<string | number>("");
   const [selectedToken, setSelectedToken] = useState({ label: "", img: "" });
 
   const options = [
@@ -51,13 +54,41 @@ export default function CryptoToCash() {
     }
   };
 
+  const handleAmountChange = (val: string) => {
+    setFromAmount(val);
+
+    if (val === "") {
+      setToAmount("");
+      return;
+    }
+
+    const converted = (Number(val) * 1450).toFixed(2);
+    setToAmount(converted);
+  };
+
+  const handleConvert = () => {
+    if (!selectedToken.label) {
+      toast.warning("Please select a cryptocurrency token to pay with.");
+      return;
+    }
+    if (!selectedWallet) {
+      toast.warning("Please select a wallet to pay from.");
+      return;
+    }
+    if (!selectedToWallet) {
+      toast.warning("Please select a wallet to pay to.");
+      return;
+    }
+  };
+
   return (
     <div className="space-y-10">
       <div className="w-full space-y-6">
         <div className="relative">
           <AmountInput
             label="You pay"
-            value="1.00"
+            value={fromAmount}
+            onChange={handleAmountChange}
             currency={selectedToken?.label.replace("USDT - ", "") || "ETH"}
             img={selectedToken?.img || "/images/eth.png"}
             onCurrencyClick={() => setShowTokenList(!showTokenList)}
@@ -76,8 +107,10 @@ export default function CryptoToCash() {
 
         <AmountInput
           label="You receive"
-          value="1.00"
+          value={toAmount}
+          onChange={() => 0}
           currency="NGN"
+          isConverted
           img="/images/ng_flag.png"
         />
 
@@ -146,7 +179,10 @@ export default function CryptoToCash() {
         </div>
       </div>
 
-      <button className="w-full bg-[#013941] hover:bg-[#013941]/90 text-white py-3 rounded-full cursor-pointer transition duration-150">
+      <button
+        onClick={handleConvert}
+        className="w-full bg-[#013941] hover:bg-[#013941]/90 text-white py-3 rounded-full cursor-pointer transition duration-150"
+      >
         Convert now
       </button>
     </div>
