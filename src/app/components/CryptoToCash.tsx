@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AmountInput from "./AmountInput";
 import SelectField from "./SelectField";
 import WalletSelect from "./WalletSelect";
@@ -98,6 +98,43 @@ export default function CryptoToCash() {
     setSelectedWallet("");
   };
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const toRef = useRef<HTMLDivElement>(null);
+  const fromRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node | null;
+      if (
+        dropdownRef.current &&
+        target &&
+        !dropdownRef.current.contains(target)
+      ) {
+        setShowTokenList(false);
+      } else if (
+        fromRef.current &&
+        target &&
+        !fromRef.current.contains(target)
+      ) {
+        setShowWallets(false);
+      } else if (toRef.current && target && !toRef.current.contains(target)) {
+        setShowToWallets(false);
+      }
+    };
+
+    if (showTokenList) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else if (showWallets) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else if (showToWallets) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showTokenList, showWallets, showToWallets]);
+
   return (
     <div className="space-y-10">
       <div className="w-full space-y-6">
@@ -112,7 +149,10 @@ export default function CryptoToCash() {
           />
 
           {showTokenList && (
-            <div className="w-1/2 absolute right-2 top-[80%] mt-2 z-50">
+            <div
+              ref={dropdownRef}
+              className="w-1/2 absolute right-2 top-[80%] mt-2 z-50"
+            >
               <SelectField
                 title="Search"
                 options={options}
@@ -156,7 +196,10 @@ export default function CryptoToCash() {
           </div>
 
           {showWallets && (
-            <div className="absolute left-0 right-0 top-full mt-2 z-50">
+            <div
+              ref={fromRef}
+              className="absolute left-0 right-0 top-full mt-2 z-50"
+            >
               <WalletSelect
                 onClose={() => setShowWallets(false)}
                 setSelectedFromWallet={setSelectedWallet}
@@ -190,7 +233,10 @@ export default function CryptoToCash() {
           </div>
 
           {showToWallets && (
-            <div className="absolute left-0 right-0 top-full mt-2 z-50">
+            <div
+              ref={toRef}
+              className="absolute left-0 right-0 top-full mt-2 z-50"
+            >
               <WalletSelect
                 onClose={() => setShowToWallets(false)}
                 setSelectedToWallet={setSelectedToWallet}
