@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Crypto Conversion UI (Next.js + Tailwind v4)
 
-## Getting Started
+This project implements a crypto-to-fiat conversion UI using **Next.js (App Router)** and **Tailwind CSS v4**, following a DRY, component-driven approach. The UI is built as a single page with state-driven views, floating dropdowns, and a lightweight design-system setup.
 
-First, run the development server:
+---
+
+## 🚀 Setup Instructions
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Pinnoche/novacrust-demo.git
+cd novacrust-demo
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser and visit:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧱 Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js 13+ (App Router)**
+- **React (Client Components where needed)**
+- **Tailwind CSS ^v4 (CSS-first theming)**
+- **next/font** for optimized font loading
+- **Lucide-React** for  icons
+- **React Toastify** for notifications
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+##
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🧠 Key Behaviors
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Floating Dropdowns
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Dropdowns are absolutely positioned overlays
+- They do not affect document flow
+- Anchored using `relative` parents and `absolute` children
+
+### Click Outside to Close
+
+- `Implemented` OverLay click to remove dropdowns
+- Works for mouse and touch events
+- Prevents accidental layout or event conflicts
+
+### Input Handling
+
+- Inputs are controlled components
+- Validation happens locally
+- Conversion logic lives in the parent to avoid coupling and stale state issues
+
+---
+
+## ⚖️ Assumptions & Trade-offs
+
+### Assumptions
+
+- Conversion rates are static placeholders (e.g. `1450`) and would be replaced by API data
+- Token and wallet lists are static for demo purposes
+- No authentication or persistence is required
+
+### Trade-offs
+
+- **Minimal animations**
+  - Focus was on correctness and structure
+  - Animations (Framer Motion) can be layered in later
+
+---
+
+## ✅ Future Improvements
+
+- Keyboard navigation for dropdowns
+- Debounced search for large token lists
+- API-driven conversion rates
+- Full dark mode theme
+- Accessibility enhancements (ARIA roles)
+
+---
+
+## 📌 Summary
+
+This project prioritizes:
+
+- Clean separation of concerns
+- True reusability
+- Modern Tailwind v4 patterns
+- Production-ready UI behavior
+
+
+
