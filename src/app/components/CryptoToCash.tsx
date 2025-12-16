@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import TabSwitcher from "./TabSwitcher";
 import AmountInput from "./AmountInput";
 import SelectField from "./SelectField";
 import WalletSelect from "./WalletSelect";
 import { ChevronDown } from "lucide-react";
+import Image from "next/image";
 
 export default function CryptoToCash() {
   const [showTokenList, setShowTokenList] = useState(false);
@@ -13,6 +13,7 @@ export default function CryptoToCash() {
   const [showToWallets, setShowToWallets] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState("");
   const [selectedToWallet, setSelectedToWallet] = useState("");
+  const [selectedToken, setSelectedToken] = useState({ label: "", img: "" });
 
   const options = [
     { label: "USDT - CELO", img: "/images/celo.png" },
@@ -21,15 +22,44 @@ export default function CryptoToCash() {
     { label: "USDT - ETH", img: "/images/eth.png" },
   ];
 
+  const handleSelect = (option: { label: string; img: string }) => {
+    setSelectedToken(option);
+    setShowTokenList(false);
+  };
+
+  const pickIcon = () => {
+    if (selectedWallet === "Metamask") {
+      return "/images/mm.png";
+    } else if (selectedWallet === "Rainbow") {
+      return "/images/rainbow.png";
+    } else if (selectedWallet === "WalletConnect") {
+      return "/images/wc.png";
+    } else {
+      return "/images/wallet.png";
+    }
+  };
+
+  const pickToIcon = () => {
+    if (selectedToWallet === "Metamask") {
+      return "/images/mm.png";
+    } else if (selectedToWallet === "Rainbow") {
+      return "/images/rainbow.png";
+    } else if (selectedToWallet === "WalletConnect") {
+      return "/images/wc.png";
+    } else {
+      return "/images/wallet.png";
+    }
+  };
+
   return (
-    <div>
+    <div className="space-y-10">
       <div className="w-full space-y-6">
         <div className="relative">
           <AmountInput
             label="You pay"
             value="1.00"
-            currency="ETH"
-            img="/images/eth.png"
+            currency={selectedToken?.label.replace("USDT - ", "") || "ETH"}
+            img={selectedToken?.img || "/images/eth.png"}
             onCurrencyClick={() => setShowTokenList(!showTokenList)}
           />
 
@@ -38,7 +68,7 @@ export default function CryptoToCash() {
               <SelectField
                 title="Search"
                 options={options}
-                onSelect={() => setShowTokenList(false)}
+                onSelect={handleSelect}
               />
             </div>
           )}
@@ -58,7 +88,18 @@ export default function CryptoToCash() {
             onClick={() => setShowWallets(!showWallets)}
             className="border border-[#E0E0E0] rounded-xl px-4 py-3 text-sm cursor-pointer flex justify-between items-center"
           >
-            <span>{selectedWallet || "Select an option"}</span>
+            <div className="flex items-center gap-2">
+              {selectedWallet && (
+                <Image
+                  src={pickIcon()}
+                  alt="icon"
+                  width={24}
+                  height={24}
+                  priority
+                />
+              )}
+              <span>{selectedWallet || "Select an option"}</span>
+            </div>
             <ChevronDown size={16} />
           </div>
 
@@ -79,7 +120,18 @@ export default function CryptoToCash() {
             onClick={() => setShowToWallets(!showToWallets)}
             className="border border-[#E0E0E0] rounded-xl px-4 py-3 text-sm cursor-pointer flex justify-between items-center"
           >
-            <span>{selectedToWallet || "Select an option"}</span>
+            <div className="flex items-center gap-2">
+              {selectedToWallet && (
+                <Image
+                  src={pickToIcon()}
+                  alt="icon"
+                  width={24}
+                  height={24}
+                  priority
+                />
+              )}
+              <span>{selectedToWallet || "Select an option"}</span>
+            </div>
             <ChevronDown size={16} />
           </div>
 

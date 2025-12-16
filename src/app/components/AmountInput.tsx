@@ -18,7 +18,7 @@ export default function AmountInput({
   img,
 }: Props) {
   return (
-    <div className="border border-[#E0E0E0] rounded-xl p-4">
+    <div className="border border-[#E0E0E0] rounded-[30px] p-6">
       <p className="text-xs text-gray-500 mb-1">{label}</p>
       <div className="flex justify-between items-center">
         <span className="text-lg font-semibold">{value}</span>

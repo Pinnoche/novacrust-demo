@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-white">
-      <section className="mx-auto max-w-xl px-4 py-6 space-y-10">
+      <section className="mx-auto max-w-xl sm:max-w-4xl px-4 py-6 space-y-10">
         <TabSwitcher active={activeTab} onChange={setActiveTab} />
         {renderView()}
       </section>
