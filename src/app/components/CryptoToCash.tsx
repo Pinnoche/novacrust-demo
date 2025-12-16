@@ -131,7 +131,7 @@ export default function CryptoToCash() {
                   priority
                 />
               )}
-              <span>{selectedWallet || "Select an option"}</span>
+              <span className="font-semibold">{selectedWallet || "Select an option"}</span>
             </div>
             <ChevronDown size={16} />
           </div>
@@ -163,7 +163,7 @@ export default function CryptoToCash() {
                   priority
                 />
               )}
-              <span>{selectedToWallet || "Select an option"}</span>
+              <span className="font-semibold">{selectedToWallet || "Select an option"}</span>
             </div>
             <ChevronDown size={16} />
           </div>

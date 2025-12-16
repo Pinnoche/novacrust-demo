@@ -35,7 +35,7 @@ export default function WalletSelect({
         <div
           key={wallet.label}
           onClick={() => handleSelect(wallet.label)}
-          className="p-2 rounded-lg hover:bg-gray-100 cursor-pointer text-sm flex items-center gap-2"
+          className="p-2 rounded-[30px] font-semibold hover:bg-gray-100 cursor-pointer text-sm flex items-center gap-2"
         >
           <Image
             src={wallet.img}
